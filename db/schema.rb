@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_01_154522) do
+ActiveRecord::Schema.define(version: 2021_06_02_172650) do
+
+  create_table "dishes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "restaurant_id"
+    t.string "dish_name"
+    t.string "price"
+    t.string "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["restaurant_id"], name: "index_dishes_on_restaurant_id"
+  end
 
   create_table "restaurants", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -18,12 +28,11 @@ ActiveRecord::Schema.define(version: 2021_06_01_154522) do
     t.string "phone_no_2"
     t.string "address", null: false
     t.string "home_delivery", null: false
-    t.string "delivery_time"
-    t.string "delivery_charge"
+    t.string "open_till"
     t.text "description"
-    t.text "other_details"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "dishes", "restaurants"
 end

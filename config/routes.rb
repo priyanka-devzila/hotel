@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  resources :restaurant, only: [:show, :index, :create, :edit, :update, :destroy]
+  resources :restaurant, only: [:show, :index, :create, :update, :destroy]
+  resources :dish, only: [:index, :show, :create, :update, :destroy]
   
 end
