@@ -16,7 +16,6 @@ class DishesController < ApplicationController
   end
 
   def show
-    @dish = @restaurant.dishes.find(params[:id])
     render_success(data: {
       dish: @dish
   })
@@ -34,7 +33,7 @@ class DishesController < ApplicationController
   end
 
   def update
-    if @dish = @restaurant.dishes.update(dish_params)
+    if @dish.update(dish_params)
       render_success message: "Dish Updated Successfully", data: {
         dish: @dish
       }
@@ -45,7 +44,7 @@ class DishesController < ApplicationController
 
 
   def destroy
-    if @restaurant.dishes.destroy
+    if @dish.destroy
       render_success message: "Dish deleted Successfully"
     else
       render_error message: "Not Deleted"
