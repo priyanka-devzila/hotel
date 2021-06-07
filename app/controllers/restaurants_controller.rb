@@ -4,9 +4,11 @@ class RestaurantsController < ApplicationController
 
   def index
       @restaurant = Restaurant.all
+      @restaurant = apply_pagination @restaurant
 
       if render_success(data: {
-            restaurant: @restaurant
+            restaurant: @restaurant.as_api_response(:base),
+            pagination: pagination(@restaurant)
         })
       else
         render_error message: "Data not Found"
@@ -16,10 +18,10 @@ class RestaurantsController < ApplicationController
 
   def show
     if render_success(data: {
-            restaurant: @restaurant
+            restaurant: @restaurant.as_api_response(:base)
         })
     else
-      render_error message: "Data Not Found"
+      render_error message: "Data Not Found", data: {error: @restaurant.errors}
     end
   
   end
@@ -32,7 +34,7 @@ class RestaurantsController < ApplicationController
             restaurant: @restaurant
         }
       else
-        render_error message: "Not Created"
+        render_error message: "Not Created" , data: {error: @restaurant.errors}
       end
   end
 
@@ -42,7 +44,7 @@ class RestaurantsController < ApplicationController
             restaurant: @restaurant
         }
       else
-        render_error message: "Not Updated"
+        render_error message: "Not Updated", data: {error: @restaurant.errors}
       end
 
   end
@@ -53,7 +55,7 @@ class RestaurantsController < ApplicationController
             restaurant: @restaurant
         }
       else
-        render_error message: "Not deleted"
+        render_error message: "Not deleted", data: {error: @restaurant.errors}
       end
 
     

@@ -6,12 +6,14 @@ class DishesController < ApplicationController
 
   def index
     @dishes = @restaurant.dishes
-    if render_success message: "Dish Created Successfully", data: {
-              Dishes: @dishes
-          }
-        else
-          render_error message: "Data not Found"
-        end
+    @dishes = apply_pagination @dishes
+    if render_success(data: {
+              Dishes: @dishes,
+              pagination: pagination(@dishes)
+          })
+    else
+      render_error message: "Data not Found", data: {error: @dishes.errors}
+    end
 
   end
 
@@ -23,13 +25,14 @@ class DishesController < ApplicationController
 
 
   def create
-      if @dish = @restaurant.dishes.create(dish_params)
-        render_success message: "Dish Created Successfully", data: {
-          dish: @dish 
-        }
-      else
-        render_error message: "Not Created"
-      end
+    @dish = @restaurant.dishes.create(dish_params)
+    if @dish.save
+      render_success message: "Dish Created Successfully", data: {
+        dish: @dish 
+      }
+    else
+      render_error message: "Not Created", data: {error: @dish.errors}
+    end
   end
 
   def update
@@ -38,7 +41,7 @@ class DishesController < ApplicationController
         dish: @dish
       }
     else
-      render_error message: "Not Updated"
+      render_error message: "Not Updated", data: {error: @dish.errors}
     end
   end
 
@@ -47,14 +50,14 @@ class DishesController < ApplicationController
     if @dish.destroy
       render_success message: "Dish deleted Successfully"
     else
-      render_error message: "Not Deleted"
+      render_error message: "Not Deleted", data: {error: @dish.errors}
     end
   end
     
   private 
     
   def dish_params
-    params.require(:dish).permit(:dish_name, :price, :quantity, :restaurant_id, :rating, :description, :ingredients, :is_veg)
+    params.require(:dish).permit(:dish_name, :price, :quantity, :rating, :description, :ingredients, :is_veg)
   end
 
   def set_dish
@@ -64,9 +67,5 @@ class DishesController < ApplicationController
   def get_restaurant
     @restaurant = Restaurant.find(params[:restaurant_id])
   end
-  
-
-
-
       
 end

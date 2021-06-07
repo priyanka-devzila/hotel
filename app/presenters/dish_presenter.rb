@@ -10,6 +10,7 @@ module DishPresenter
       t.add :price
       t.add :quantity
     end
+  end
 end
 
 

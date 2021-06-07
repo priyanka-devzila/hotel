@@ -15,7 +15,7 @@ module RestaurantPresenter
       t.add :open_till
       t.add :description
     end
+  end
+
 end
-
-
     
