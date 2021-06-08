@@ -14,6 +14,8 @@ module RestaurantPresenter
       t.add :dishes, template: :base
       t.add :open_till
       t.add :description
+      t.add :created_at
+      t.add :updated_at
     end
   end
 
