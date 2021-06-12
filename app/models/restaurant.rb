@@ -6,6 +6,7 @@ class Restaurant < ApplicationRecord
   # ======================== SCOPES ================================= #
   # ======================== ASSOCIATIONS =========================== #
   has_many :dishes
+  has_many :orders
   # ======================== ENUMS ================================== #
   # ======================== VALIDATIONS ============================ #
   validates :name, :address, presence: true
